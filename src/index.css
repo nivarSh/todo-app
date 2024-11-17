@@ -85,6 +85,13 @@ hr {
   z-index: 5;
 }
 
+.timer-buttons {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+  z-index: 5;
+}
+
 .todo-buttons button {
   border: none !important;
   box-shadow: none !important;
@@ -102,6 +109,13 @@ hr {
   background: var(--color-link);
 }
 
+.todo-buttons button:nth-of-type(2) {
+  /* color: #9580ff;
+  background: rgba(149, 128, 255, .1); */
+  color: var(--color-link);
+  background: var(--color-link-transparent);
+}
+
 .todo-buttons button:last-of-type {
   /* color: #9580ff;
   background: rgba(149, 128, 255, .1); */
@@ -109,6 +123,9 @@ hr {
   background: var(--color-link-transparent);
 }
 
+.baby-spacing {
+  margin-top:1ric;
+}
 
 .todo-item p {
   font-weight: 500;
