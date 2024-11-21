@@ -27,9 +27,20 @@ export function Timer() {
       // paused timer condition
       clearInterval(interval);
     }
+    else if (seconds === 0){
+      // Timer is completed -> play ringer
+      clearInterval(interval)
+      playSound()
+    }
 
     return () => clearInterval(interval);
   }, [isActive, seconds]); // tells useEffect to run whenever isActive or seconds change
+
+  // Function to play sound
+  const playSound = () => {
+    const audio = new Audio("src/assets/ringtone.mp3")
+    audio.play()
+  }
 
   // Helper function to format time as MM:SS
   const formatTime = (totalSeconds) => {
