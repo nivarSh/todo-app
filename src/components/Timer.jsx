@@ -38,7 +38,7 @@ export function Timer() {
 
   // Function to play sound
   const playSound = () => {
-    const audio = new Audio("src/assets/ringtone.mp3")
+    const audio = new Audio("/public/ringtone.mp3")
     audio.play()
   }
 
