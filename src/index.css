@@ -43,7 +43,7 @@ h1 {
 }
 
 .tab-selected::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 50%;
@@ -70,7 +70,7 @@ hr {
 
 .todo-complete::after {
   position: absolute;
-  content: '';
+  content: "";
   z-index: 4;
   inset: -1.5px;
   border-radius: inherit;
@@ -124,7 +124,25 @@ hr {
 }
 
 .baby-spacing {
-  margin-top:1ric;
+  margin-top: 1ric;
+}
+
+.fade {
+  opacity: 0; /* Initially invisible */
+  animation: fadeIn 0.5s forwards; /* Fade-in animation */
+  /*animation: fadeOut 0.5s backwards; /* Fade-in animation */
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1; /* Fully visible */
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0; /* Fully gone */
+  }
 }
 
 .todo-item p {
@@ -157,7 +175,7 @@ hr {
   }
 }
 
-@media (min-width:640px) {
+@media (min-width: 640px) {
   .tab-button {
     padding: 0.5rem 1.5rem;
   }

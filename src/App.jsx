@@ -3,6 +3,7 @@ import { Tabs } from "./components/Tabs";
 import { TodoList } from "./components/TodoList";
 import { TodoInput } from "./components/TodoInput";
 import { Timer } from "./components/Timer";
+import { Tally } from "./components/Tally";
 
 import { useState, useEffect } from "react";
 
@@ -23,7 +24,7 @@ function App() {
   function handleAddTodo(newTodo) {
     const newTodoList = [...todos, { input: newTodo, complete: false }];
     setTodos(newTodoList);
-    handleSaveData(newTodoList)
+    handleSaveData(newTodoList);
   }
 
   function handleCompleteTodo(index) {
@@ -33,7 +34,7 @@ function App() {
     completedTodo["complete"] = true;
     newTodoList[index] = completedTodo;
     setTodos(newTodoList);
-    handleSaveData(newTodoList)
+    handleSaveData(newTodoList);
   }
 
   function handleDeleteTodo(index) {
@@ -41,7 +42,7 @@ function App() {
       return valIndex !== index;
     });
     setTodos(newTodoList);
-    handleSaveData(newTodoList)
+    handleSaveData(newTodoList);
   }
 
   function handleSaveData(currTodos) {
@@ -73,6 +74,7 @@ function App() {
         handleCompleteTodo={handleCompleteTodo}
       />
       <TodoInput handleAddTodo={handleAddTodo} />
+      <Tally />
     </>
   );
 }

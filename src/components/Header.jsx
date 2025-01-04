@@ -6,7 +6,7 @@ export function Header(props) {
     const tasksOrTasks = isTasksPlural ? 'tasks' : 'task'
     return (
         <header>
-            <h1 className="text-gradient">You have {todosLength} open {tasksOrTasks}.</h1>
+            <h1 className="text-gradient">You have {todosLength} open {tasksOrTasks}</h1>
         </header>
     )
 }
