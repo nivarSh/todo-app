@@ -6,8 +6,9 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   const [inputTime, setInputTime] = useState(""); // For user input
   const [endTime, setEndTime] = useState(null); // Target end time in timestamp
   const [logButton, setLogButton] = useState(true);
+  const [setTime, setSetTime] = useState(5400);
+  const [logPopup, setLogPopup] = useState(false);
 
-  // Additional flag for button logic
   const [run, setRun] = useState(false);
 
   const toggle = () => {
@@ -28,7 +29,9 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
     setSeconds(5400);
     setIsActive(false);
     setEndTime(null);
+    setLogButton(true);
     setRun(false);
+    setLogPopup(false);
   };
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
         clearInterval(interval);
         setIsActive(false);
         playSound();
+        setLogPopup(true);
       }
     }, 100);
 
@@ -56,9 +60,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    const formattedSeconds = String(seconds).padStart(2, "0");
-    return `${formattedMinutes}:${formattedSeconds}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
 
   const handleInputChange = (e) => {
@@ -66,8 +68,9 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   };
 
   const setTimer = () => {
-    setRun(false)
+    setRun(false);
     const [minutes, seconds] = inputTime.split(":").map(Number);
+    setSetTime(minutes * 60 + seconds);
     if (!isNaN(minutes) && !isNaN(seconds) && minutes >= 0 && seconds >= 0) {
       setSeconds(minutes * 60 + seconds);
       setInputTime("");
@@ -84,14 +87,17 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
       return;
     }
 
-    // Add the session's seconds to the current day's tally
+    const currentDayTally = tallyTime[currentDay] || 0;
+    const sessionTime = Math.max(setTime - seconds, 0);
+
     const newTallyTime = {
       ...tallyTime,
-      [currentDay]: tallyTime[currentDay] + seconds,
+      [currentDay]: currentDayTally + sessionTime,
     };
-    console.log(tallyTime[currentDay] + seconds);
+
     updateTallyTime(newTallyTime);
     reset();
+    setLogPopup(false);
   };
 
   return (
@@ -119,6 +125,18 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
         />
         <button onClick={setTimer}>Set Timer</button>
       </div>
+      {logPopup && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Session Completed!</h3>
+            <p>Would you like to log this session of {formatTime(setTime)}?</p>
+            <div className="modal-buttons">
+              <button onClick={logSession}>Log Session</button>
+              <button onClick={() => setLogPopup(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

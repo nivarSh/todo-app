@@ -17,23 +17,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Eczar:wght@400..800&family=Grenze:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  --background-primary: white;
-  --background-secondary: "";
-  --background-tertiary: #dbeafe;
+  --background-primary: #0f0505;
+  --background-secondary: #1e0e0e;
+  --background-tertiary: #241212;
   --background-accent: "";
   --background-compliment: "";
   --background-gradient: "";
-  --background-muted: #f8fafc;
+  --background-muted: #321a1a;
 
-  --color-primary: #030615;
+  --color-primary: white;
   --color-secondary: "";
   --color-tertiary: "";
   --color-accent: "";
   --color-compliment: "";
   --color-gradient: "";
   --color-muted: ;
-  --color-link: #2563eb;
-  --color-link-transparent: rgba(37, 99, 235, 0.1);
+  --color-link: #fa6060;
+  --color-link-transparent: rgba(235, 37, 37, 0.1);
 
   --color-success: "";
   --color-warning: "";
@@ -41,12 +41,12 @@
   --color-info: "";
   --color-highlight: #fef9c3;
 
-  --gradient-start: #9580ff;
-  --gradient-end: #80ffea;
+  --gradient-start: #ff8080;
+  --gradient-end: #df8349;
 
-  --border-primary: #f1f5f9;
-  --border-secondary: #bed1e7;
-  --border-highlight: #64748b;
+  --border-primary: #5b2929;
+  --border-secondary: #713232;
+  --border-highlight: #af4646;
   --border-tertiary: "";
 
   --shadow-dark: "";
@@ -63,54 +63,6 @@
   --text-selection: "";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-primary: #0f0505;
-    --background-secondary: #1e0e0e;
-    --background-tertiary: #241212;
-    --background-accent: "";
-    --background-compliment: "";
-    --background-gradient: "";
-    --background-muted: #321a1a;
-
-    --color-primary: white;
-    --color-secondary: "";
-    --color-tertiary: "";
-    --color-accent: "";
-    --color-compliment: "";
-    --color-gradient: "";
-    --color-muted: ;
-    --color-link: #fa6060;
-    --color-link-transparent: rgba(235, 37, 37, 0.1);
-
-    --color-success: "";
-    --color-warning: "";
-    --color-error: "";
-    --color-info: "";
-    --color-highlight: #fef9c3;
-
-    --gradient-start: #ff8080;
-    --gradient-end: #df8349;
-
-    --border-primary: #5b2929;
-    --border-secondary: #713232;
-    --border-highlight: #af4646;
-    --border-tertiary: "";
-
-    --shadow-dark: "";
-    --shadow-light: "";
-    --shadow-text: "";
-
-    --padding-small: 1rem;
-    --padding-large: 2rem;
-
-    --border-radius-small: 0.5rem;
-    --border-radius-large: 0.75rem;
-    --highlight-border-radius: 0.5rem;
-
-    --text-selection: "";
-  }
-}
 
 * {
   margin: 0;

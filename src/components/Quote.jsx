@@ -7,15 +7,18 @@ export function Quote() {
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const response = await fetch("https://zenquotes.io/api/today");
-        const data = await response.json();
-        if (data && data[0]) {
-          setQuote(data[0].q); // Set the quote text
-          setAuthor(data[0].a); // Set the author
+        const response = await fetch("https://api.quotable.io/random");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        const data = await response.json();
+        setQuote(data.content); // Set the quote text
+        setAuthor(data.author); // Set the author
       } catch (error) {
         console.error("Error fetching quote:", error);
-        setQuote("Keep going. Everything you need will come to you at the perfect time.");
+        setQuote(
+          "Keep going. Everything you need will come to you at the perfect time."
+        );
         setAuthor("Unknown");
       }
     };

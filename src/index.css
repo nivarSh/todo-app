@@ -214,6 +214,44 @@ hr {
   background-color: #fb6060; /* Highlight color */
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: rgb(204, 76, 76);
+  padding: 30px;
+  border-radius: 5px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal-buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+
+
+}
+
+.timer-buttons button:disabled,
+.input-container input:disabled,
+.input-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
 @media (min-width: 640px) {
   .tab-button {
     padding: 0.5rem 1.5rem;
