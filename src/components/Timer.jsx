@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 export function Timer({ tallyTime, updateTallyTime, currentDay }) {
-  const [seconds, setSeconds] = useState(5400); // Initial time of timer is 90 minutes
+  const [seconds, setSeconds] = useState(5); // Initial time of timer is 90 minutes
   const [isActive, setIsActive] = useState(false);
   const [inputTime, setInputTime] = useState(""); // For user input
   const [endTime, setEndTime] = useState(null); // Target end time in timestamp
   const [logButton, setLogButton] = useState(true);
-  const [setTime, setSetTime] = useState(5400);
+  const [setTime, setSetTime] = useState(5);
   const [logPopup, setLogPopup] = useState(false);
 
   const [run, setRun] = useState(false);
@@ -26,7 +26,8 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   };
 
   const reset = () => {
-    setSeconds(5400);
+    setSeconds(5);
+    setSetTime(5);
     setIsActive(false);
     setEndTime(null);
     setLogButton(true);
@@ -60,7 +61,10 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   const handleInputChange = (e) => {
@@ -73,6 +77,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
     setSetTime(minutes * 60 + seconds);
     if (!isNaN(minutes) && !isNaN(seconds) && minutes >= 0 && seconds >= 0) {
       setSeconds(minutes * 60 + seconds);
+      setSetTime(seconds);
       setInputTime("");
       setIsActive(false);
       setEndTime(null);
@@ -89,7 +94,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
 
     const currentDayTally = tallyTime[currentDay] || 0;
     const sessionTime = Math.max(setTime - seconds, 0);
-
+    console.log(sessionTime);
     const newTallyTime = {
       ...tallyTime,
       [currentDay]: currentDayTally + sessionTime,
@@ -132,7 +137,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
             <p>Would you like to log this session of {formatTime(setTime)}?</p>
             <div className="modal-buttons">
               <button onClick={logSession}>Log Session</button>
-              <button onClick={() => setLogPopup(false)}>Cancel</button>
+              <button onClick={() => reset()}>Cancel</button>
             </div>
           </div>
         </div>
