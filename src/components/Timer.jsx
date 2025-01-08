@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 export function Timer({ tallyTime, updateTallyTime, currentDay }) {
-  const [seconds, setSeconds] = useState(5); // Initial time of timer is 90 minutes
+
+  const defaultTime = 5400; // Default seconds everytime page is loaded or reset is pressed
+
+  const [seconds, setSeconds] = useState(defaultTime); // Initial time of timer is 90 minutes
   const [isActive, setIsActive] = useState(false);
   const [inputTime, setInputTime] = useState(""); // For user input
   const [endTime, setEndTime] = useState(null); // Target end time in timestamp
   const [logButton, setLogButton] = useState(true);
-  const [setTime, setSetTime] = useState(5);
+  const [setTime, setSetTime] = useState(defaultTime);
   const [logPopup, setLogPopup] = useState(false);
 
   const [run, setRun] = useState(false);
@@ -26,8 +29,8 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   };
 
   const reset = () => {
-    setSeconds(5);
-    setSetTime(5);
+    setSeconds(defaultTime);
+    setSetTime(defaultTime);
     setIsActive(false);
     setEndTime(null);
     setLogButton(true);
