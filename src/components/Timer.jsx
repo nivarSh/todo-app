@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export function Timer({ tallyTime, updateTallyTime, currentDay }) {
 
-  const defaultTime = 3; // Default seconds everytime page is loaded or reset is pressed
+  const defaultTime = 5400; // Default seconds everytime page is loaded or reset is pressed
 
   const [seconds, setSeconds] = useState(defaultTime); // Initial time of timer is 90 minutes
   const [isActive, setIsActive] = useState(false);
