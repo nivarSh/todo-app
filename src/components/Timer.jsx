@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export function Timer({ tallyTime, updateTallyTime, currentDay }) {
 
-  const defaultTime = 5400; // Default seconds everytime page is loaded or reset is pressed
+  const defaultTime = 3; // Default seconds everytime page is loaded or reset is pressed
 
   const [seconds, setSeconds] = useState(defaultTime); // Initial time of timer is 90 minutes
   const [isActive, setIsActive] = useState(false);
@@ -77,17 +77,19 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   const setTimer = () => {
     setRun(false);
     const [minutes, seconds] = inputTime.split(":").map(Number);
-    setSetTime(minutes * 60 + seconds);
+  
     if (!isNaN(minutes) && !isNaN(seconds) && minutes >= 0 && seconds >= 0) {
-      setSeconds(minutes * 60 + seconds);
-      setSetTime(seconds);
+      const totalSeconds = minutes * 60 + seconds;
+      setSeconds(totalSeconds);
+      setSetTime(totalSeconds); // Correctly set total time
       setInputTime("");
       setIsActive(false);
       setEndTime(null);
     } else {
       alert("Please Enter a valid time in MM:SS format");
+      setInputTime("")
     }
-  };
+  };  
 
   const logSession = () => {
     if (!currentDay) {
