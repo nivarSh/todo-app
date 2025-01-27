@@ -45,29 +45,37 @@ function App() {
 
   // Function to reset the tallyTime weekly on Monday
   const resetWeeklyTally = () => {
-    const lastResetDate = localStorage.getItem("last-reset-date");
     const currentDate = new Date();
-    const currentDay = currentDate.getDay();
+    const currentDay = currentDate.getDay(); // Get current day (0 = Sunday, 1 = Monday, etc.)
 
-    if (lastResetDate) {
-      const lastReset = new Date(lastResetDate);
-      const lastResetDay = lastReset.getDay();
-      const diffInDays = (currentDate - lastReset) / (1000 * 60 * 60 * 24);
+    const lastResetDate = localStorage.getItem("last-reset-date");
 
-      if (currentDay === 1 && (lastResetDay !== 1 || diffInDays >= 7)) {
-        updateTallyTime({
-          Monday: 0,
-          Tuesday: 0,
-          Wednesday: 0,
-          Thursday: 0,
-          Friday: 0,
-          Saturday: 0,
-          Sunday: 0,
-        }); // Reset tallyTime for the entire week
+    if (currentDay === 1) {
+      // Check if today is Monday
+      if (lastResetDate) {
+        const lastReset = new Date(lastResetDate);
+
+        // Only reset if it's a new Monday (not the same Monday as last reset)
+        if (
+          currentDate.toDateString() !== lastReset.toDateString() ||
+          currentDate - lastReset > 6 * 24 * 60 * 60 * 1000 // Ensure it's been a full week
+        ) {
+          // Reset tallyTime for the week
+          updateTallyTime({
+            Monday: 0,
+            Tuesday: 0,
+            Wednesday: 0,
+            Thursday: 0,
+            Friday: 0,
+            Saturday: 0,
+            Sunday: 0,
+          });
+          localStorage.setItem("last-reset-date", currentDate.toISOString());
+        }
+      } else {
+        // No last reset date found, set it for the first time
         localStorage.setItem("last-reset-date", currentDate.toISOString());
       }
-    } else {
-      localStorage.setItem("last-reset-date", currentDate.toISOString());
     }
   };
 

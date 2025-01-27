@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export function Timer({ tallyTime, updateTallyTime, currentDay }) {
-
   const defaultTime = 5400; // Default seconds everytime page is loaded or reset is pressed
 
   const [seconds, setSeconds] = useState(defaultTime); // Initial time of timer is 90 minutes
@@ -13,6 +12,8 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   const [logPopup, setLogPopup] = useState(false);
 
   const [run, setRun] = useState(false);
+
+  const audioRef = useRef(new Audio("/ringtone1.mp3"));
 
   const toggle = () => {
     setLogButton(!logButton);
@@ -57,7 +58,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   }, [isActive, endTime]);
 
   const playSound = () => {
-    const audio = new Audio("/ringtone.mp3");
+    const audio = audioRef.current;
     audio.play();
   };
 
@@ -77,7 +78,7 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
   const setTimer = () => {
     setRun(false);
     const [minutes, seconds] = inputTime.split(":").map(Number);
-  
+
     if (!isNaN(minutes) && !isNaN(seconds) && minutes >= 0 && seconds >= 0) {
       const totalSeconds = minutes * 60 + seconds;
       setSeconds(totalSeconds);
@@ -87,15 +88,18 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
       setEndTime(null);
     } else {
       alert("Please Enter a valid time in MM:SS format");
-      setInputTime("")
+      setInputTime("");
     }
-  };  
+  };
 
   const logSession = () => {
     if (!currentDay) {
       alert("Error: Unable to determine the current day.");
       return;
     }
+    const audio = audioRef.current;
+    audio.pause();
+    audio.currentTime = 0;
 
     const currentDayTally = tallyTime[currentDay] || 0;
     const sessionTime = Math.max(setTime - seconds, 0);

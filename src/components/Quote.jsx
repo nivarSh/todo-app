@@ -7,19 +7,19 @@ export function Quote() {
   useEffect(() => {
     const fetchQuote = async () => {
       try {
-        const response = await fetch("https://api.quotable.io/random");
+        const response = await fetch("https://api.api-ninjas.com/v1/quotes", {
+          headers: { "X-Api-Key": "NSFNyT+rvg9SAd3KR1/JHA==1k3AHiPvyo84J994" },
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setQuote(data.content); // Set the quote text
-        setAuthor(data.author); // Set the author
+        setQuote(data[0].quote);
+        setAuthor(data[0].author);
+        // Use the quote and author as needed
       } catch (error) {
         console.error("Error fetching quote:", error);
-        setQuote(
-          "Keep going. Everything you need will come to you at the perfect time."
-        );
-        setAuthor("Unknown");
+        // Handle the error or use a fallback quote
       }
     };
 
