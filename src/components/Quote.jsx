@@ -4,6 +4,8 @@ export function Quote() {
   const [quote, setQuote] = useState("");
   const [author, setAuthor] = useState("");
 
+  const message = "One day you will realize that every dream you had died because you chose comfort over effort, and there will be no one to blame but yourself. That regret will haunt you forever."
+
   useEffect(() => {
     const fetchQuote = async () => {
       try {
@@ -21,7 +23,6 @@ export function Quote() {
         console.error("Error fetching quote:", error);
         // Handle the error or use a fallback quote
       }
-      setQuote("One day you will realize that every dream you had died because you chose comfort over effort, and there will be no one to blame but yourself. That regret will haunt you forever.")
     };
 
     fetchQuote();
@@ -29,7 +30,7 @@ export function Quote() {
 
   return (
     <div className="quote-container">
-      <p className="quote">"{quote}"</p>
+      <p className="quote">"{message}"</p>
       {/*<p className="author">- {author}</p>*/}
     </div>
   );
