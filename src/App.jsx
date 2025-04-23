@@ -82,7 +82,7 @@ function App() {
   useEffect(() => {
     const storedTallyTime = localStorage.getItem("user-tally-time");
     if (storedTallyTime) {
-      setTallyTime(JSON.parse(storedTallyTime)); // Load stored tally time
+      setTallyTime(JSON.parse(storedTallyTime));
     } else {
       const defaultTallyTime = {
         Monday: 0,
@@ -93,11 +93,37 @@ function App() {
         Saturday: 0,
         Sunday: 0,
       };
-      setTallyTime(defaultTallyTime); // Set default values
-      localStorage.setItem("user-tally-time", JSON.stringify(defaultTallyTime)); // Save defaults to localStorage
+      setTallyTime(defaultTallyTime);
+      localStorage.setItem("user-tally-time", JSON.stringify(defaultTallyTime));
     }
-    resetWeeklyTally();
   }, []);
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay(); // 1 = Monday
+  
+    if (currentDay === 1) {
+      const lastResetDate = localStorage.getItem("last-reset-date");
+  
+      const hasBeenResetToday = lastResetDate &&
+        new Date(lastResetDate).toDateString() === currentDate.toDateString();
+  
+      if (!hasBeenResetToday) {
+        const reset = {
+          Monday: 0,
+          Tuesday: 0,
+          Wednesday: 0,
+          Thursday: 0,
+          Friday: 0,
+          Saturday: 0,
+          Sunday: 0,
+        };
+        setTallyTime(reset);
+        localStorage.setItem("user-tally-time", JSON.stringify(reset));
+        localStorage.setItem("last-reset-date", currentDate.toISOString());
+      }
+    }
+  }, []);  
 
   function handleAddTodo(newTodo) {
     const newTodoList = [...todos, { input: newTodo, complete: false }];
