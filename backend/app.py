@@ -1,0 +1,196 @@
+from flask import Flask, request, session, jsonify
+from flask_session import Session
+from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
+from datetime import datetime, timedelta
+
+
+app = Flask(__name__)
+app.secret_key = "supersecretkey"
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+# Route: signup
+@app.route('/signup', methods=["POST"])
+def register():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({"error": "Missing username or password"}), 400
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Check if username exists
+    cur.execute("SELECT * FROM users WHERE username = ?", (username,))
+    if cur.fetchone():
+        conn.close()
+        return jsonify({"error": "Username already exists"}), 400
+
+    # Insert user
+    hashed_pw = generate_password_hash(password)
+    cur.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", (username, hashed_pw))
+    conn.commit()
+
+    user_id = cur.lastrowid
+    conn.close()
+
+    # Immediately log the user in
+    session['user_id'] = user_id
+    session['username'] = username
+
+    return jsonify({"message": "User registered successfully and logged in"}), 201
+
+
+# Route: Login
+@app.route('/login', methods=["POST"])
+def login():
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({"error": "Missing username or password"}), 400
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = ?", (username,))
+    user = cur.fetchone()
+    conn.close()
+
+    if user and check_password_hash(user['password_hash'], password):
+        session['user_id'] = user['id'] # write to session (start of session)
+        session['username'] = user['username']
+        return jsonify({"message": "Logged in successfully"})
+    else:
+        return jsonify({"error": "Invalid username or password"}), 401
+
+
+# Route: Logout
+@app.route('/logout', methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"message": "Logged out successfully"})
+
+
+# Route: me
+@app.route('/me', methods=["GET"])
+def me():
+    user_id = session.get('user_id') #read from session
+    username = session.get('username')
+    if user_id:
+        return jsonify({"user_id": user_id, "username": username})
+    return jsonify({"user_id": None, "username": None})
+
+
+# when user logs minutes post that session into database with the date it occurred (timestamp)
+# Route: work_logs
+@app.route('/work_logs', methods=["POST"])
+def work_logs():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({"error": "Not logged in"}), 401
+    
+    data = request.json
+    seconds = data.get('seconds')
+
+    if seconds is None:
+        return jsonify({"error": "Missing seconds"}), 400
+    
+    conn = get_db_connection()
+    conn.execute(
+        "INSERT INTO work_logs (user_id, seconds, date) VALUES (?, ?, DATE('now'))",
+        (user_id, seconds)
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Work logged successfully"})
+
+
+# Goal: get the most recent logs for the timeframe: current date to last monday. (SQL Magic)
+# Route: work_logs/weekly
+@app.route('/work_logs/weekly', methods=["GET"])
+def work_logs_weekly():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({"error": "Not logged in"}), 401
+    
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Get today's date and Monday of this week
+    today = datetime.today()
+    start_of_week = today - timedelta(days=today.weekday())  # Monday
+
+    # Query: group total seconds by date from this week's Monday to today
+    cur.execute("""
+        SELECT date, SUM(seconds) as total_seconds
+        FROM work_logs
+        WHERE user_id = ?
+          AND date BETWEEN DATE(?) AND DATE(?)
+        GROUP BY date
+    """, (user_id, start_of_week.date(), today.date()))
+
+    rows = cur.fetchall()
+    conn.close()
+
+    # Initialize response with 0s
+    result = {
+        "Monday": 0,
+        "Tuesday": 0,
+        "Wednesday": 0,
+        "Thursday": 0,
+        "Friday": 0,
+        "Saturday": 0,
+        "Sunday": 0
+    }
+
+    # Convert dates to day names and fill in the result
+    for row in rows:
+        day = datetime.strptime(row["date"], "%Y-%m-%d").strftime("%A")
+        seconds = row["total_seconds"]
+        result[day] = seconds
+
+    return jsonify(result)
+
+@app.route('/work_logs/history', methods=["GET"])
+def work_logs_history():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({"error": "Not logged in"}), 401
+    
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+                SELECT seconds, date
+                FROM work_logs
+                WHERE user_id = ?
+                ORDER BY date DESC
+                """, (user_id,))
+    
+    rows = cur.fetchall()
+    conn.close()
+
+    history = [
+        {"seconds": row["seconds"], "date": row["date"]}
+        for row in rows
+    ]
+
+    return jsonify(history)
+
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
