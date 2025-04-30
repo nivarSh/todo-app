@@ -10,7 +10,10 @@ app = Flask(__name__)
 app.secret_key = "supersecretkey"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+CORS(app, supports_credentials=True, origins=[
+    "http://localhost:5173",              # local dev
+    "https://todo-app-nivar.vercel.app"   # deployed frontend
+])
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
