@@ -12,7 +12,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
     const handleLogin = async () => {
         try {
-            await axios.post("http://localhost:5000/login", {username, password})
+            await axios.post("https://todo-app-xvg1.onrender.com/login", {username, password})
             onLoginSuccess(); // Let Router know that login is successful, -> switch to homepage
         } catch (err) {
             alert("login failed")
@@ -21,7 +21,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
     const handleSignup = async () => {
         try {
-            await axios.post("http://localhost:5000/signup", {username, password})
+            await axios.post("https://todo-app-xvg1.onrender.com/signup", {username, password})
             onLoginSuccess(); // Let Router know that signup is successful, -> switch to homepage
         } catch (err) {
             alert("signup failed")

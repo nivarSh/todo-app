@@ -11,7 +11,7 @@ export default function ProtectedApp() {
     const [loggedIn, setLoggedIn] = useState(false);
   
     useEffect(() => {
-      axios.get("http://localhost:5000/me")
+      axios.get("https://todo-app-xvg1.onrender.com/me")
         .then(res => {
           if (res.data && res.data.user_id) {
             console.log(res.data)

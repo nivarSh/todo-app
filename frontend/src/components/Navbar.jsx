@@ -7,7 +7,7 @@ export function Navbar() {
 
       const handleLogout = async () => {
         try {
-            axios.post("http://localhost:5000/logout")
+            axios.post("https://todo-app-xvg1.onrender.com/logout")
             window.location.href = "/"; // full reload to root
         } catch {
             alert("logout failed")

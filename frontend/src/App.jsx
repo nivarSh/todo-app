@@ -48,7 +48,7 @@ function App() {
     setUsername(localStorage.getItem("username"))
     const fetchTallyTime = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/work_logs/weekly", {
+        const res = await axios.get("https://todo-app-xvg1.onrender.com/work_logs/weekly", {
           withCredentials: true,
         });
   

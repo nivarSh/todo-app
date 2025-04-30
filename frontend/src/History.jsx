@@ -18,7 +18,7 @@ export default function History() {
         const fetchWeekly = async () => {
           setLoading(true);
           try {
-            const res = await axios.get("http://localhost:5000/work_logs/weekly", {
+            const res = await axios.get("https://todo-app-xvg1.onrender.com/work_logs/weekly", {
               withCredentials: true,
             });
       
@@ -44,7 +44,7 @@ export default function History() {
         const fetchHistory = async () => {
             setLoading(true)
           try {
-            const res = await axios.get("http://localhost:5000/work_logs/history", {
+            const res = await axios.get("https://todo-app-xvg1.onrender.com/work_logs/history", {
               withCredentials: true,
             });
             console.log(res.data);
