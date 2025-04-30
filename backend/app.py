@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_COOKIE_SAMESITE"] = "None"
+app.config["SESSION_COOKIE_SECURE"] = True
 Session(app)
 CORS(app, supports_credentials=True, origins=[
     "http://localhost:5173",              # local dev
