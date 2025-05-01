@@ -123,7 +123,7 @@ def work_logs():
         "INSERT INTO work_logs (user_id, seconds, date) VALUES (%s, %s, CURRENT_DATE)",
         (user_id, seconds)
     )
-    
+
     conn.commit()
     cur.close()
     conn.close()
@@ -171,7 +171,7 @@ def work_logs_weekly():
 
     # Convert dates to day names and fill in the result
     for row in rows:
-        day = datetime.strptime(row["date"], "%Y-%m-%d").strftime("%A")
+        day = row["date"].strftime("%A")
         seconds = row["total_seconds"]
         result[day] = seconds
 
@@ -194,6 +194,7 @@ def work_logs_history():
                 """, (user_id,))
     
     rows = cur.fetchall()
+    cur.close()
     conn.close()
 
     history = [
