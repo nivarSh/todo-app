@@ -39,14 +39,14 @@ def register():
     cur = conn.cursor()
 
     # Check if username exists
-    cur.execute("SELECT * FROM users WHERE username = ?", (username,))
+    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
     if cur.fetchone():
         conn.close()
         return jsonify({"error": "Username already exists"}), 400
 
     # Insert user
     hashed_pw = generate_password_hash(password)
-    cur.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", (username, hashed_pw))
+    cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_pw))
     conn.commit()
 
     user_id = cur.lastrowid
@@ -71,7 +71,7 @@ def login():
 
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM users WHERE username = ?", (username,))
+    cur.execute("SELECT * FROM users WHERE username = %s", (username,))
     user = cur.fetchone()
     conn.close()
 
@@ -116,7 +116,7 @@ def work_logs():
     
     conn = get_db_connection()
     conn.execute(
-        "INSERT INTO work_logs (user_id, seconds, date) VALUES (?, ?, DATE('now'))",
+        "INSERT INTO work_logs (user_id, seconds, date) VALUES (%s, %s, DATE('now'))",
         (user_id, seconds)
     )
     conn.commit()
@@ -144,8 +144,8 @@ def work_logs_weekly():
     cur.execute("""
         SELECT date, SUM(seconds) as total_seconds
         FROM work_logs
-        WHERE user_id = ?
-          AND date BETWEEN DATE(?) AND DATE(?)
+        WHERE user_id = %s
+          AND date BETWEEN DATE(%s) AND DATE(%s)
         GROUP BY date
     """, (user_id, start_of_week.date(), today.date()))
 
@@ -183,7 +183,7 @@ def work_logs_history():
     cur.execute("""
                 SELECT seconds, date
                 FROM work_logs
-                WHERE user_id = ?
+                WHERE user_id = %s
                 ORDER BY date DESC
                 """, (user_id,))
     
