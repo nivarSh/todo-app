@@ -46,10 +46,12 @@ def register():
 
     # Insert user
     hashed_pw = generate_password_hash(password)
-    cur.execute("INSERT INTO users (username, password_hash) VALUES (%s, %s)", (username, hashed_pw))
+    cur.execute(
+        "INSERT INTO users (username, password_hash) VALUES (%s, %s) RETURNING id",
+        (username, hashed_pw)
+    )
+    user_id = cur.fetchone()["id"]
     conn.commit()
-
-    user_id = cur.lastrowid
     conn.close()
 
     # Immediately log the user in
