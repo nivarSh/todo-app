@@ -102,7 +102,7 @@ export default function History() {
                 {loading ? (
                 <p></p>
                 ) : history.length === 0 ? (
-                <p>No work sessions yet.</p>
+                <p className="errormsghis">No work sessions yet.</p>
                 ) : (
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead>

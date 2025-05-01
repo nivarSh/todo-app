@@ -19,6 +19,7 @@ export default function ProtectedApp() {
             setLoggedIn(true);
           } else {
             setLoggedIn(false);
+            console.log("poomalam")
           }
           setLoading(false);
         })

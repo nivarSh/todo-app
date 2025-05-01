@@ -7,6 +7,8 @@
   gap: 1rem;
   padding: 1rem;
   margin-top: 4rem;
+  background: var(--background-primary); /* again, ensure it's filled */
+  min-height: 100vh;
 }
 
 * {
@@ -362,6 +364,11 @@ hr {
 
 .btn-ctr button {
   width: 140px;
+}
+
+.errormsghis {
+  margin: 0 auto;
+  margin-top: 1rem;
 }
 
 @media (min-width: 640px) {

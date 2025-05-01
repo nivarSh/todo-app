@@ -7,7 +7,8 @@ export function Navbar() {
 
       const handleLogout = async () => {
         try {
-            axios.post("https://todo-app-xvg1.onrender.com/logout")
+            await axios.post("https://todo-app-xvg1.onrender.com/logout")
+            localStorage.clear()
             window.location.href = "/"; // full reload to root
         } catch {
             alert("logout failed")
