@@ -2,12 +2,14 @@ from flask import Flask, request, session, jsonify
 from flask_session import Session
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-import sqlite3
 from datetime import datetime, timedelta
+import os
+import psycopg2
+import psycopg2.extras
 
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.secret_key = os.environ.get("SECRET_KEY")
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config["SESSION_COOKIE_SECURE"] = True
@@ -18,8 +20,8 @@ CORS(app, supports_credentials=True, origins=[
 ])
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
+    db_url = os.environ.get("DATABASE_URL")
+    conn = psycopg2.connect(db_url, cursor_factory=psycopg2.extras.RealDictCursor)
     return conn
 
 
