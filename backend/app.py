@@ -117,11 +117,15 @@ def work_logs():
         return jsonify({"error": "Missing seconds"}), 400
     
     conn = get_db_connection()
-    conn.execute(
-        "INSERT INTO work_logs (user_id, seconds, date) VALUES (%s, %s, DATE('now'))",
+    cur = conn.cursor()
+
+    cur.execute(
+        "INSERT INTO work_logs (user_id, seconds, date) VALUES (%s, %s, CURRENT_DATE)",
         (user_id, seconds)
     )
+    
     conn.commit()
+    cur.close()
     conn.close()
 
     return jsonify({"message": "Work logged successfully"})

@@ -105,7 +105,7 @@ axios.defaults.withCredentials = true; // tell axios to send cookies with every 
     const sessionTime = Math.max(setTime - seconds, 0);
 
     try {
-      await axios.post("http://localhost:5000/work_logs", {
+      await axios.post("https://todo-app-xvg1.onrender.com/work_logs", {
         seconds: sessionTime
       });
       console.log(`Logged ${sessionTime} seconds`);

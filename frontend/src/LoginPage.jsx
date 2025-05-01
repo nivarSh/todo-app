@@ -39,15 +39,18 @@ export default function LoginPage({ onLoginSuccess }) {
                 </p>
                 <div className="info-card-container">
                     <div>
-                        <p>Customizable Timer</p>
+                        <p className="headerinfo">Customizable Timer</p>
+                        <p>Simple timers designed around timeboxing and Parkinson’s Law to maximize efficiency.</p>
                         <IoIosTimer size={44}/>
                     </div>
                     <div>
-                    <p className="task-list-p">Task Lists</p>
-                        <FaPencilAlt size={34}/>
+                    <p className="headerinfo">Task Lists</p>
+                    <p>Organize your day with simple task lists that guide each session and reduce decision fatigue.</p>
+                        <FaPencilAlt size={40}/>
                     </div>
                     <div>
-                        <p>Data Visualizations</p>
+                        <p className="headerinfo">Data Visualizations</p>
+                        <p>Track your weekly progress with visual insights that reinforce consistency and reveal trends.</p>
                         <SlGraph size={44}/>
                     </div>
                 </div>
