@@ -1,7 +1,7 @@
 # DeepWork: Science-based tool aimed at enhancing productivity.
 
 # https://todo-app-nivar.vercel.app/
-May take a minute for website to load. Backend is hosted on Render free plan: inactivity results in the app sleeping.
+`May take a minute for website to load. Backend is hosted on Render free plan: inactivity results in the app sleeping.`
 
 ## Science-based Philosophy
 The goal of DeepWork is to help users define a clear set of tasks and assign themselves focused time blocks to complete them efficiently.
