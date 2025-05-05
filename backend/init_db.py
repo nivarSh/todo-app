@@ -34,6 +34,15 @@ def init():
     );
     """)
 
+    # Sessions table
+    cur.execute("""
+    CREATE TABLE flask_sessions (
+        session_id TEXT PRIMARY KEY,
+        data BYTEA,
+        expiry TIMESTAMP
+    );
+    """)
+
     conn.commit()
     cur.close()
     conn.close()

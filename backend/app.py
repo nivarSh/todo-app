@@ -4,15 +4,24 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 from pytz import timezone
+from flask_sqlalchemy import SQLAlchemy
 
 import os
 import psycopg2
 import psycopg2.extras
 
-
+# init flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY")
-app.config["SESSION_TYPE"] = "filesystem"
+
+# SQLAlchemy setup
+db_url = os.environ.get("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
+db = SQLAlchemy(app)
+
+app.config["SESSION_TYPE"] = "sqlalchemy"
+app.config["SESSION_SQLALCHEMY_TABLE"] = "flask_sessions"
+app.config["SESSION_SQLALCHEMY"] = db
 app.config["SESSION_COOKIE_SAMESITE"] = "None"
 app.config["SESSION_COOKIE_SECURE"] = True
 Session(app)
