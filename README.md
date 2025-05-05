@@ -14,7 +14,3 @@ The app was built using the react.js framework. useState was used to update page
 - Create a circular visual of the progress of the timer (data visualization)
 - Create a more complex backend for user authentication to store their todo list data and the amount of work they have done over time
 - Implement a habit tracker tab that refreshes daily
-
- # Hosting
- Hosted using Vercel free plan
- https://todo-app-nivar.vercel.app/
