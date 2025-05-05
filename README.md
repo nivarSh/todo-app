@@ -1,8 +1,5 @@
 # DeepWork: Science-based tool aimed at enhancing productivity.
 
-# https://todo-app-nivar.vercel.app/
-`May take a minute for website to load. Backend is hosted on Render free plan: inactivity results in the app sleeping.`
-
 ## Science-based Philosophy
 The goal of DeepWork is to help users define a clear set of tasks and assign themselves focused time blocks to complete them efficiently.
 
@@ -43,5 +40,7 @@ DeepWork is a science-inspired productivity web application that helps users foc
 - Section for youtube embedded music to play: will curate playlist based on different moods: classical, creative, fun, etc.
 
 ## Hosting
-- Frontend: hosted using Vercel free plan https://todo-app-nivar.vercel.app/
+- Frontend: hosted using Vercel free plan
 - Backend: hosted with Render flask and Render Postgres database
+
+`currently reworking app to handle hosting. Current struggles are reworking app to handle render free plans. Persisting session storage even if backend is shut down due to inactivity.`
