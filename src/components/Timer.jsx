@@ -108,8 +108,24 @@ export function Timer({ tallyTime, updateTallyTime, currentDay }) {
       ...tallyTime,
       [currentDay]: currentDayTally + sessionTime,
     };
-
     updateTallyTime(newTallyTime);
+
+    // Create history object for this logged session
+    const historyObj = {
+      timestamp: new Date().toISOString(),
+      seconds: sessionTime,
+    }
+
+    // read the previous history array (or start with empty)
+    const prev = localStorage.getItem("history");
+    const historyArray = prev ? JSON.parse(prev) : [];
+
+    // append new history object
+    historyArray.push(historyObj)
+
+    // update localStorage as JSON
+    localStorage.setItem("history", JSON.stringify(historyArray))
+
     reset();
     setLogPopup(false);
   };

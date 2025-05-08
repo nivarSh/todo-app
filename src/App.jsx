@@ -4,6 +4,7 @@ import { TodoList } from "./components/TodoList";
 import { TodoInput } from "./components/TodoInput";
 import { Timer } from "./components/Timer";
 import { Tally } from "./components/Tally";
+import { Navbar } from "./components/Navbar";
 
 import { useState, useEffect } from "react";
 import { Quote } from "./components/Quote";
@@ -160,6 +161,7 @@ function App() {
 
   return (
     <>
+      <Navbar />
       <Header todos={todos} />
       <Timer
         tallyTime={tallyTime}
