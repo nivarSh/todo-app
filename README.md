@@ -46,4 +46,4 @@ DeepWork is a science-inspired productivity web application that helps users foc
 `currently reworking app to handle hosting. Current struggles are reworking app to handle render's free plans. Persisting session storage even if backend is shut down due to inactivity.`
 
 This version below is a frontend-only version that leverages localStorage to store study data. Frontend only apps are free to host with vercel.
-https://todo-app-client-ten.vercel.app/
+[https://todo-app-client-ten.vercel.app/](https://todo-app-nivar.vercel.app/)
